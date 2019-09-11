@@ -23,7 +23,7 @@ void testApp::update(){
 	vidGrabber.update();
 	
 	if (vidGrabber.isFrameNew()){
-        colorImage.setFromPixels(vidGrabber.getPixels(), CAM_WIDTH, CAM_HEIGHT);
+        colorImage.setFromPixels(vidGrabber.getPixels());
         colorImage.mirror(false, true);
 		
         if(bLearnBackground) {

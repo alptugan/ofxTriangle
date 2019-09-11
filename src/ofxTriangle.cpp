@@ -7,7 +7,7 @@ void ofxTriangle::triangulate(ofxCvBlob &cvblob, int resolution)
 }
 #endif
 
-void ofxTriangle::triangulate(vector<ofPoint> contour, int resolution){
+void ofxTriangle::triangulate(vector<glm::vec3> contour, int resolution){
     int bSize = contour.size();
     float maxi = min(resolution, bSize);
 	
@@ -36,16 +36,16 @@ void ofxTriangle::triangulate(vector<ofPoint> contour, int resolution){
         int ptb_id = (int)ofMap(ptb, 0, maxi, 0, bSize);
         int ptc_id = (int)ofMap(ptc, 0, maxi, 0, bSize);
 		
-        ofPoint tr[3];
+        glm::vec3 tr[3];
         tr[0] = ofPoint(contour[pta_id].x, contour[pta_id].y);
         tr[1] = ofPoint(contour[ptb_id].x, contour[ptb_id].y);
         tr[2] = ofPoint(contour[ptc_id].x, contour[ptc_id].y);
 		
         if( isPointInsidePolygon(&contour[0], contour.size(), getTriangleCenter(tr) ) ) {
             ofxTriangleData td;
-            td.a = ofPoint(tr[0].x, tr[0].y);
-            td.b = ofPoint(tr[1].x, tr[1].y);
-            td.c = ofPoint(tr[2].x, tr[2].y);
+            td.a = glm::vec3(tr[0].x, tr[0].y,0);
+            td.b = glm::vec3(tr[1].x, tr[1].y,0);
+            td.c = glm::vec3(tr[2].x, tr[2].y,0);
 
             td.area = delobject->area(fit);
 
@@ -63,19 +63,19 @@ void ofxTriangle::clear(){
     nTriangles = 0;
 }
 
-ofPoint ofxTriangle::getTriangleCenter(ofPoint *tr){
+glm::vec3 ofxTriangle::getTriangleCenter(glm::vec3 *tr){
     float c_x = (tr[0].x + tr[1].x + tr[2].x) / 3;
     float c_y = (tr[0].y + tr[1].y + tr[2].y) / 3;
 
-    return ofPoint(c_x, c_y);
+    return glm::vec3(c_x, c_y, 0);
 }
 
-bool ofxTriangle::isPointInsidePolygon(ofPoint *polygon,int N, ofPoint p)
+bool ofxTriangle::isPointInsidePolygon(glm::vec3 *polygon,int N, glm::vec3 p)
 {
     int counter = 0;
     int i;
     double xinters;
-    ofPoint p1,p2;
+    glm::vec3 p1,p2;
 
     p1 = polygon[0];
 
@@ -116,7 +116,7 @@ void ofxTriangle::draw(float r, float g, float b) {
 	
     for (int i=0; i<nTriangles; i++){
         ofSetColor(r,g,b);
-        ofTriangle( triangles[i].a.x, triangles[i].a.y,
+        ofDrawTriangle( triangles[i].a.x, triangles[i].a.y,
 				   triangles[i].b.x, triangles[i].b.y,
 				   triangles[i].c.x, triangles[i].c.y);
     }

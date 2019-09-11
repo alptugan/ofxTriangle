@@ -52,7 +52,7 @@ void testApp::fillBuffer(){
     ofSetHexColor(0xFF0000);
     ofFill();
     for (int i = 0; i < 480; i += 30){
-        ofRect(0, ofGetFrameNum()%30+i, 640, 10);
+        ofDrawRectangle(0, ofGetFrameNum()%30+i, 640, 10);
     }
     buffer.end();
 }
@@ -62,7 +62,7 @@ void testApp::drawSolidFillShape(){
     ofTranslate(70, 125);
     ofBeginShape();
     ofSetColor(255, 192, 64);
-    vector<ofPoint> vertices = line.getVertices();
+    vector<glm::vec3> vertices = line.getVertices();
     for(int i = 0; i < vertices.size(); i++){
         ofVertex(vertices[i]);
     }
@@ -75,7 +75,7 @@ void testApp::drawBufferFillShape(){
     //Render the buffer inside the shape by drawing as individual triangles
     ofPushMatrix();
     ofTranslate(340, 125);
-    buffer.getTextureReference().bind();
+    buffer.getTexture().bind();
     glBegin(GL_TRIANGLES);
     for (int i = 0; i < triangle.nTriangles; i++){
         glTexCoord2f(triangle.triangles[i].a.x, triangle.triangles[i].a.y);
@@ -88,7 +88,7 @@ void testApp::drawBufferFillShape(){
         glVertex2f(triangle.triangles[i].c.x, triangle.triangles[i].c.y);
     }
     glEnd();
-    buffer.getTextureReference().unbind();
+    buffer.getTexture().unbind();
     ofPopMatrix();   
 }
 
