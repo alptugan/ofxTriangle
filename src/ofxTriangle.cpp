@@ -37,9 +37,9 @@ void ofxTriangle::triangulate(vector<glm::vec3> contour, int resolution){
         int ptc_id = (int)ofMap(ptc, 0, maxi, 0, bSize);
 		
         glm::vec3 tr[3];
-        tr[0] = ofPoint(contour[pta_id].x, contour[pta_id].y);
-        tr[1] = ofPoint(contour[ptb_id].x, contour[ptb_id].y);
-        tr[2] = ofPoint(contour[ptc_id].x, contour[ptc_id].y);
+        tr[0] = glm::vec3(contour[pta_id].x, contour[pta_id].y, 0);
+        tr[1] = glm::vec3(contour[ptb_id].x, contour[ptb_id].y, 0);
+        tr[2] = glm::vec3(contour[ptc_id].x, contour[ptc_id].y, 0);
 		
         if( isPointInsidePolygon(&contour[0], contour.size(), getTriangleCenter(tr) ) ) {
             ofxTriangleData td;
